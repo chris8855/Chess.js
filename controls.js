@@ -7,6 +7,7 @@ let placeY;
 let moves;
 let p, prevP;
 let thisMove;
+let c;
 function mousePressed() {
   currentX = Math.floor(mouseX / res);
   currentY = Math.floor(mouseY / res);
@@ -14,8 +15,9 @@ function mousePressed() {
   placeX = currentX * res;
   placeY = currentY * res;
   p = findPiece(currentCell);
-  if (p.color == "b" && tur == "white") return;
-  if (p.color == "w" && tur == "black") return;
+  c = checkCollision(p, prevP);
+  if (p.color == "b" && tur == "white" && !c) return;
+  if (p.color == "w" && tur == "black" && !c) return;
 
   if (isMarked && board[currentY][currentX] == 0) {
     noFill();
@@ -30,7 +32,22 @@ function mousePressed() {
     movePiece(prevP, thisMove);
     isMarked = false;
   }
+
+
   if (isMarked && board[currentY][currentX] != 0) {
+    if (c) {
+      noFill();
+      stroke(0);
+      strokeWeight(2);
+      rect(placeX, placeY, res, res);
+      for (let i in moves) {
+        let currentMove = moves[i];
+        rect(currentMove[1] * res, currentMove[0] * res, res, res);
+        if ((currentCell[0] == currentMove[0]) && (currentCell[1] == currentMove[1])) thisMove = currentMove;
+      }
+      movePiece(prevP, thisMove);
+    }
+
     noFill();
     stroke(0);
     strokeWeight(2);
@@ -42,7 +59,7 @@ function mousePressed() {
     isMarked = false;
   }
 
-  if (p != 0) {
+  if (!isMarked && p != 0) {
     noFill();
     stroke(255,255,0);
     strokeWeight(2);
@@ -63,13 +80,15 @@ function findPiece(cord) {
   return piece;
 }
 
-
 function movePiece(piece, move) {
   board[Math.floor(piece.y / res)][Math.floor(piece.x / res)] = 0;
   piece.x = move[1] * res;
   piece.y = move[0] * res;
+  board[move[0]][move[1]] = 0;
   board[move[0]][move[1]] = piece;
+  nextTurn();
   drawBoard();
   drawPieces();
-  nextTurn();
+  p = 0;
+  prevP = 0;
 }

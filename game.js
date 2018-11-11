@@ -8,3 +8,23 @@ let turnCount = 0, turns = 0;
    turnCount = Math.floor(turns / 2);
    turn.innerText = tur + " player turnCount: " + turnCount;
  }
+
+function checkCollision (pi, pPiece) {
+  let collide = false;
+
+  if (tur == "black") {
+    if (pi.color == "w") {
+      if (pPiece.color == "b") {
+        collide = true;
+      }
+    }
+  }
+  if (tur == "white") {
+    if (pi.color == "b") {
+      if (pPiece.color == "w") {
+        collide = true;
+      }
+    }
+  }
+  return collide;
+}
