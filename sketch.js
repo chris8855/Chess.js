@@ -11,7 +11,7 @@ let board =
 [[new Rook("b",0,0),new Knight("b",1,0),new Bishop("b",2,0),new Queen("b",3,0),new King("b",4,0),new Bishop("b",5,0),new Knight("b",6,0),new Rook("b",7,0)],
  [new Pawn("b",0,1),new Pawn("b",1,1),new Pawn("b",2,1),new Pawn("b",3,1),new Pawn("b",4,1),new Pawn("b",5,1),new Pawn("b",6,1),new Pawn("b",7,1)],
  [0,0,0,0,0,0,0,0],
- [0,0,0,0,0,0,0,0],
+ [new Rook("b",0,3),0,0,0,new King("b",4,3),0,0,0],
  [0,0,0,0,0,0,0,0],
  [0,0,0,0,0,0,0,0],
  [new Pawn("w",0,6),new Pawn("w",1,6),new Pawn("w",2,6),new Pawn("w",3,6),new Pawn("w",4,6),new Pawn("w",5,6),new Pawn("w",6,6),new Pawn("w",7,6)],
