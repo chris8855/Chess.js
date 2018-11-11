@@ -405,9 +405,28 @@ function getLegalMoves(piece) {
       }
     }
   }
-
-
+  else if (piece instanceof Knight) {
+    if (piece.color == "b") {
+      if (bY - 2 >= 0 && bX - 1 >= 0) if (board[bY - 2][bX - 1] == 0 || board[bY - 2][bX - 1].color == "w") moves.push([bY - 2, bX - 1]);
+      if (bY - 2 >= 0 && bX + 1 <= 7) if (board[bY - 2][bX + 1] == 0 || board[bY - 2][bX + 1].color == "w") moves.push([bY - 2, bX + 1]);
+      if (bY - 1 >= 0 && bX - 2 >= 0) if (board[bY - 1][bX - 2] == 0 || board[bY - 1][bX - 2].color == "w") moves.push([bY - 1, bX - 2]);
+      if (bY - 1 >= 0 && bX + 2 <= 7) if (board[bY - 1][bX + 2] == 0 || board[bY - 1][bX + 2].color == "w") moves.push([bY - 1, bX + 2]);
+      if (bY + 2 <= 7 && bX - 1 >= 0) if (board[bY + 2][bX - 1] == 0 || board[bY + 2][bX - 1].color == "w") moves.push([bY + 2, bX - 1]);
+      if (bY + 2 <= 7 && bX + 1 <= 7) if (board[bY + 2][bX + 1] == 0 || board[bY + 2][bX + 1].color == "w") moves.push([bY + 2, bX + 1]);
+      if (bY + 1 <= 7 && bX - 2 >= 0) if (board[bY + 1][bX - 2] == 0 || board[bY + 1][bX - 2].color == "w") moves.push([bY + 1, bX - 2]);
+      if (bY + 1 <= 7 && bX + 2 <= 7) if (board[bY + 1][bX + 2] == 0 || board[bY + 1][bX + 2].color == "w") moves.push([bY + 1, bX + 2]);
+    }
+    else {
+      if (bY - 2 >= 0 && bX - 1 >= 0) if (board[bY - 2][bX - 1] == 0 || board[bY - 2][bX - 1].color == "b") moves.push([bY - 2, bX - 1]);
+      if (bY - 2 >= 0 && bX + 1 <= 7) if (board[bY - 2][bX + 1] == 0 || board[bY - 2][bX + 1].color == "b") moves.push([bY - 2, bX + 1]);
+      if (bY - 1 >= 0 && bX - 2 >= 0) if (board[bY - 1][bX - 2] == 0 || board[bY - 1][bX - 2].color == "b") moves.push([bY - 1, bX - 2]);
+      if (bY - 1 >= 0 && bX + 2 <= 7) if (board[bY - 1][bX + 2] == 0 || board[bY - 1][bX + 2].color == "b") moves.push([bY - 1, bX + 2]);
+      if (bY + 2 <= 7 && bX - 1 >= 0) if (board[bY + 2][bX - 1] == 0 || board[bY + 2][bX - 1].color == "b") moves.push([bY + 2, bX - 1]);
+      if (bY + 2 <= 7 && bX + 1 <= 7) if (board[bY + 2][bX + 1] == 0 || board[bY + 2][bX + 1].color == "b") moves.push([bY + 2, bX + 1]);
+      if (bY + 1 <= 7 && bX - 2 >= 0) if (board[bY + 1][bX - 2] == 0 || board[bY + 1][bX - 2].color == "b") moves.push([bY + 1, bX - 2]);
+      if (bY + 1 <= 7 && bX + 2 <= 7) if (board[bY + 1][bX + 2] == 0 || board[bY + 1][bX + 2].color == "b") moves.push([bY + 1, bX + 2]);
+    }
+  }
   else moves = [];
-  print(moves);
   return moves;
 }
