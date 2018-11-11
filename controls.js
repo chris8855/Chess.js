@@ -13,8 +13,10 @@ function mousePressed() {
   currentCell = [currentY, currentX];
   placeX = currentX * res;
   placeY = currentY * res;
-
   p = findPiece(currentCell);
+  if (p.color == "b" && tur == "white") return;
+  if (p.color == "w" && tur == "black") return;
+
   if (isMarked && board[currentY][currentX] == 0) {
     noFill();
     stroke(0);
@@ -40,7 +42,6 @@ function mousePressed() {
     isMarked = false;
   }
 
-
   if (p != 0) {
     noFill();
     stroke(255,255,0);
@@ -62,6 +63,7 @@ function findPiece(cord) {
   return piece;
 }
 
+
 function movePiece(piece, move) {
   board[Math.floor(piece.y / res)][Math.floor(piece.x / res)] = 0;
   piece.x = move[1] * res;
@@ -69,4 +71,5 @@ function movePiece(piece, move) {
   board[move[0]][move[1]] = piece;
   drawBoard();
   drawPieces();
+  nextTurn();
 }
