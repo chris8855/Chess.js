@@ -4,9 +4,10 @@ Chess created using p5.js
 v1.0
 
 TO DO:
-1. List of previous turns
-2. Win Screen
-3. Buttons to start, pause, restart game
-4. Add Timers
-5. Bug Fixing
-6. 1 player AI
+1. Pawn can move 2 steps
+2. List of previous turns
+3. Win Screen
+4. Buttons to start, pause, restart game
+5. Add Timers
+6. Bug Fixing
+7. 1 player AI
