@@ -1,10 +1,12 @@
 # Chess.js
 Chess created using p5.js
 
+v1.0
+
 TO DO:
--List of previous turns
--Win Screen
--Buttons to start, pause, restart game
--Add Timers
--Bug Fixing
--1 player AI
+1. List of previous turns
+2. Win Screen
+3. Buttons to start, pause, restart game
+4. Add Timers
+5. Bug Fixing
+6. 1 player AI

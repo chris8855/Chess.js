@@ -20,6 +20,8 @@ let board =
  [new Rook("w",0,7),new Knight("w",1,7),new Bishop("w",2,7),new Queen("w",3,7),new King("w",4,7),new Bishop("w",5,7),new Knight("w",6,7),new Rook("w",7,7)]];
 
 
+
+
 function preload() {
   img = loadImage('./sources/brikker.png');
 }
