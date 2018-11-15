@@ -36,6 +36,7 @@ class Knight {
 
 class Rook {
   constructor(color,x,y) {
+    this.moved = false;
     this.color = color;
     this.value = 5;
     this.x = x * res;
@@ -60,6 +61,7 @@ class Queen {
 
 class King {
   constructor(color,x,y) {
+    this.moved = false;
     this.color = color;
     this.value = Infinity;
     this.x = x * res;

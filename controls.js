@@ -4,16 +4,27 @@ let placeX, placeY;
 let p, prevP;
 let moves, thisMove;
 let order = 0;
-
+let deadList = [];
 
 function mousePressed() {
-  getPosData();
-  p = findPiece(currentCell);
-  if ((order == 0 && p != 0) && ((p.color != "b" && tur == "white") || (p.color != "w" && tur == "black"))) newPiece();
-  else if ((order == 1) && (p == 0)) move();
-  else if ((order == 1) && (p != 0)) {
-    if ((p.color == "b" && tur == "black") || (p.color == "w" && tur == "white")) newPiece();
-    else move();
+  if (!pauseState) {
+    getPosData();
+    p = findPiece(currentCell);
+    if ((order == 0 && p != 0) && ((p.color != "b" && tur == "white") || (p.color != "w" && tur == "black"))) newPiece();
+    else if ((order == 1) && (p == 0)) move();
+
+    else if ((order == 1) && (p != 0)) {
+      if ((p.color == "b" && tur == "black") || (p.color == "w" && tur == "white")){
+        let r = checkRokkade();
+        print(r);
+        if (!r) newPiece();
+        else rokkade();
+      }
+      else {
+        deadList.push(p);
+        move();
+      }
+    }
   }
 }
 
@@ -64,18 +75,23 @@ function findPiece(cord) {
 }
 
 function movePiece(piece, move) {
-  board[Math.floor(piece.y / res)][Math.floor(piece.x / res)] = 0;
-  piece.x = move[1] * res;
-  piece.y = move[0] * res;
-  board[move[0]][move[1]] = 0;
-  board[move[0]][move[1]] = piece;
-  nextTurn();
-  drawBoard();
-  drawPieces();
-  p = 0;
-  prevP = 0;
-  moves = [];
-  thisMove = 0;
+  if (!term) {
+    board[Math.floor(piece.y / res)][Math.floor(piece.x / res)] = 0;
+    piece.x = move[1] * res;
+    piece.y = move[0] * res;
+    board[move[0]][move[1]] = 0;
+    board[move[0]][move[1]] = piece;
+    audio.play();
+    nextTurn();
+    drawBoard();
+    drawPieces();
+    p = 0;
+    prevP = 0;
+    moves = [];
+    thisMove = 0;
+    term = checkTerminalState();
+    if (term) turn.innerText = (`${terminalState} is the winner!`);
+  }
 }
 
 function grid() {

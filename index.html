@@ -2,9 +2,47 @@
 <html>
   <head>
     <title>Chess</title>
+    <style media="screen">
+    body {
+      margin: 0;
+    }
+    table {
+      display: inline-block;
+    }
+    body {
+      text-align: center;
+    }
+    </style>
   </head>
   <body>
-    <h3 id="turn"> </h3>
+
+
+    <table>
+      <tr>
+        <td>
+          <div id="whiteContainer">
+            <h3>White</h3>
+            <h3 id="whiteTimer"></h3>
+          </div>
+        </td>
+        <td>
+          <div id="canvasContainer">
+            <button type="button" id="StartGame">Start New Game</button>
+            <button type="button" id="PauseGame">Resume Game</button>
+            <h3 id="turn"> </h3>
+          </div>
+        </td>
+        <td>
+          <div id="blackContainer">
+            <h3>Black</h3>
+            <h3 id="blackTimer"></h3>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/p5.js"></script>
     <script src="game.js"></script>
     <script src="moves.js"></script>
@@ -12,7 +50,6 @@
     <script src="pieces.js"></script>
     <script src="board.js"></script>
     <script src="sketch.js"></script>
-
 
   </body>
 </html>
