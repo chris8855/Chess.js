@@ -31,9 +31,8 @@ function mousePressed() {
 function newPiece() {
   order = 1;
   grid();
-  noFill();
-  stroke(255,255,0);
-  strokeWeight(2);
+  fill(245, 252, 35, 75);
+  noStroke();
   rect(placeX, placeY, res, res);
   moves = getLegalMoves(p);
   for (let i in moves) {
@@ -95,6 +94,8 @@ function movePiece(piece, move) {
 }
 
 function grid() {
+  drawBoard();
+  drawPieces();
   noFill();
   stroke(0);
   strokeWeight(2);
