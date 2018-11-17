@@ -5,7 +5,7 @@ let p, prevP;
 let moves, thisMove;
 let order = 0;
 let deadList = [];
-
+let blackState = false, whiteState = false;
 function mousePressed() {
   if (!pauseState) {
     getPosData();
@@ -57,8 +57,20 @@ function move() {
   }
   if (thisMove == 0) return;
   else movePiece(prevP, thisMove);
-}
+  let i = getCheck();
+  if (i[0]) {
+    if (i[1].color == "b") blackState = true;
+    else whiteState = true;
+    fill(255,0,0,75);
+    noStroke();
+    rect(i[1].x,i[1].y, res, res);
+  }
+  else {
+    blackState = false;
+    whiteState = false;
+  }
 
+}
 
 function getPosData() {
   currentX = Math.floor(mouseX / res);
@@ -75,6 +87,10 @@ function findPiece(cord) {
 
 function movePiece(piece, move) {
   if (!term) {
+    if (piece instanceof King || piece instanceof Rook){
+      piece.moved = true;
+    }
+
     board[Math.floor(piece.y / res)][Math.floor(piece.x / res)] = 0;
     piece.x = move[1] * res;
     piece.y = move[0] * res;

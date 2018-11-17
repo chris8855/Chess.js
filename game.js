@@ -73,3 +73,34 @@ let term = false;
      blackTimer.innerText = `${blackHour}:${blackMin}:${blackSec}`;
    }
  }
+
+
+ function getCheck() {
+   let kingList = [];
+   let currentP, leg;
+   let returnList = [false];
+   for (let i = 0; i < 8; i++) {
+     for (let j = 0; j < 8; j++) {
+       currentP = board[i][j];
+       if (currentP == 0) continue;
+       if (currentP instanceof King) kingList.push(currentP);
+     }
+  }
+   for (let i = 0; i < 8; i++) {
+     for (let j = 0; j < 8; j++) {
+       currentP = board[i][j];
+       if (currentP == 0) continue;
+       else {
+         leg = getLegalMoves(currentP);
+         for (let k = 0; k < leg.length; k++) {
+           for (let n = 0; n < kingList.length; n++) {
+             if((leg[k][1] == Math.floor(kingList[n].x / res)) && (leg[k][0] == Math.floor(kingList[n].y / res))){
+               returnList = [true,kingList[n]];
+             }
+          }
+         }
+       }
+     }
+   }
+   return returnList;
+ }
