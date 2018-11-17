@@ -6,19 +6,17 @@ let moves, thisMove;
 let order = 0;
 let deadList = [];
 let blackState = false, whiteState = false;
+let prevX = 0, prevY = 0;
+
 function mousePressed() {
   if (!pauseState) {
     getPosData();
     p = findPiece(currentCell);
     if ((order == 0 && p != 0) && ((p.color != "b" && tur == "white") || (p.color != "w" && tur == "black"))) newPiece();
+    else if ((order == 1 && p != 0) && ((p.color != "b" && tur == "white") || (p.color != "w" && tur == "black"))) newPiece();
     else if ((order == 1) && (p == 0)) move();
-
     else if ((order == 1) && (p != 0)) {
       if ((p.color == "b" && tur == "black") || (p.color == "w" && tur == "white")){
-        let r = checkRokkade();
-        print(r);
-        if (!r) newPiece();
-        else rokkade();
       }
       else {
         deadList.push(p);
@@ -55,12 +53,31 @@ function move() {
     }
     else thisMove = 0;
   }
+
   if (thisMove == 0) return;
+  let re = testMove(prevP, thisMove);
+  if (re[0]) {
+    if (prevP instanceof King){
+      alert("Trying to move into check");
+      moveBack(prevP);
+      p = 0;
+      prevP = 0;
+      moves = [];
+      thisMove = 0;
+      return;
+    }
+    movePiece(prevP, thisMove)
+    checkCheck(re);
+  }
   else movePiece(prevP, thisMove);
-  let i = getCheck();
+}
+
+function checkCheck(state) {
+  let i = state;
   if (i[0]) {
     if (i[1].color == "b") blackState = true;
     else whiteState = true;
+
     fill(255,0,0,75);
     noStroke();
     rect(i[1].x,i[1].y, res, res);
@@ -69,8 +86,8 @@ function move() {
     blackState = false;
     whiteState = false;
   }
-
 }
+
 
 function getPosData() {
   currentX = Math.floor(mouseX / res);
@@ -107,6 +124,26 @@ function movePiece(piece, move) {
     term = checkTerminalState();
     if (term) turn.innerText = (`${terminalState} is the winner!`);
   }
+}
+
+function testMove(piece, move) {
+  if (!term) {
+    board[Math.floor(piece.y / res)][Math.floor(piece.x / res)] = 0;
+    prevX = piece.x;
+    prevY = piece.y;
+    piece.x = move[1] * res;
+    piece.y = move[0] * res;
+    board[move[0]][move[1]] = 0;
+    board[move[0]][move[1]] = piece;
+  }
+  return getCheck();
+}
+
+function moveBack(piece) {
+  board[Math.floor(piece.y / res)][Math.floor(piece.x / res)] = 0;
+  piece.x = prevX;
+  piece.y = prevY;
+  board[Math.floor(piece.y / res)][Math.floor(piece.x / res)] = piece;
 }
 
 function grid() {

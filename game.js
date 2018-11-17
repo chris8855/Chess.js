@@ -3,7 +3,6 @@ let turnCount = 0, turns = 0;
 let terminalState = "none";
 let term = false;
 
-
  function nextTurn() {
    if (tur == "white") tur = "black";
    else tur = "white";
@@ -11,7 +10,6 @@ let term = false;
    turnCount = Math.floor(turns / 2);
    turn.innerText = tur + " player turnCount: " + turnCount;
  }
-
 
  function checkTerminalState() {
    let black = 0, white = 0;
@@ -34,7 +32,6 @@ let term = false;
    }
    else return false;
  }
-
 
  function checkRokkade() {
    if (p.color == prevP.color) {
@@ -73,7 +70,6 @@ let term = false;
      blackTimer.innerText = `${blackHour}:${blackMin}:${blackSec}`;
    }
  }
-
 
  function getCheck() {
    let kingList = [];
