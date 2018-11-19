@@ -1,5 +1,3 @@
-
-
 function getLegalMoves(piece) {
   let moves = [];
   let pX = piece.x;

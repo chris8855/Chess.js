@@ -4,10 +4,10 @@ Chess created using p5.js
 v1.0
 
 TO DO:
-1. Graveyard
-2. Castling
-3. Limit moves when in check
-4. Checkmate
-5. 1 player AI
-6. Accounts
-7. Online multiplayer
+
+1. Checkmate
+2. Change pawn when end of board is reached
+3. Castling
+4. 1 player AI
+5. Accounts
+6. Online multiplayer
