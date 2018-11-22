@@ -1,5 +1,5 @@
 function mousePressed() {
-  if (!pauseState) {
+  if (!pauseState && !term) {
     getPosData();
     p = findPiece(currentCell);
     if ((order == 0 && p != 0) && ((p.color != "b" && tur == "white") || (p.color != "w" && tur == "black"))) newPiece();

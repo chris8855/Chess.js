@@ -17,10 +17,10 @@ const hIndex     = height/pH;
 let pauseState    = true;
 let tur           = "white";
 let terminalState = "none";
-let term          = false;
 let order         = 0;
 let deadList      = [];
 
+let term       = false, midTerm    = false;
 let turnCount  = 0,     turns      = 0;
 let prevX      = 0,     prevY      = 0;
 let blackState = false, whiteState = false;

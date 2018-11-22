@@ -6,39 +6,6 @@ function nextTurn() {
   turn.innerText = tur + " player turnCount: " + turnCount;
 }
 
-function checkTerminalState() {
-  let black = 0, white = 0;
-  for (let i = 0; i < 8; i++) {
-    for (let j = 0; j < 8; j++) {
-      let piece = board[i][j];
-      if(piece != 0) {
-        if (piece.color == "b") black ++;
-        if (piece.color == "w") white ++;
-      }
-    }
-  }
-  if (black == 0){
-    terminalState = "white";
-    return true;
-  }
-  else if (white == 0){
-    terminalState = "black";
-    return true;
-  }
-  else return false;
-}
-
-function checkRokkade() {
-  if (p.color == prevP.color) {
-    if ((p instanceof King && prevP instanceof Rook) || (p instanceof Rook && prevP instanceof King)) {
-      if (!p.moved && !p.moved) return true;
-      else return false;
-    }
-    else return false;
-  }
-  else return false;
-}
-
 async function updateClock() {
   if (tur == "white") {
     whiteSec++;
@@ -96,6 +63,7 @@ function getCheck() {
   return returnList;
 }
 
+
 function newPiece() {
   order = 1;
   grid();
@@ -110,6 +78,7 @@ function newPiece() {
   prevP = p;
   prevCell = currentCell;
 }
+
 
 function move() {
   order = 0;
@@ -126,11 +95,12 @@ function move() {
 
   if (thisMove == 0) return;
   let re = testMove(prevP, thisMove);
-
-
   if (re[0]) {
+
+    if (checkMate(prevP.color)) finishGame();
+
     if (prevP instanceof King){
-      //checkMate(prevP, moves);
+
       alert("Trying to move into check");
       moveBack(prevP);
       p = 0;
@@ -138,6 +108,16 @@ function move() {
       moves = [];
       thisMove = 0;
       grid();
+      return;
+    }
+
+    if ((!whiteState && tur == "white" && re[1].color == "w" || !blackState && tur == "black" && re[1].color == "b")) {
+      moveBack(prevP);
+      p = 0;
+      prevP = 0;
+      moves = [];
+      thisMove = 0;
+      alert("Move puts you in chess");
       return;
     }
 
@@ -153,12 +133,12 @@ function move() {
       alert("Move still puts you in chess");
       return;
     }
-
     movePiece(prevP, thisMove)
     checkCheck(re);
+    if (midTerm) term = true;
   }
   else movePiece(prevP, thisMove);
-
+  if (midTerm) term = true;
 }
 
 function checkCheck(state) {
@@ -176,7 +156,6 @@ function checkCheck(state) {
     whiteState = false;
   }
 }
-
 
 function getPosData() {
   currentX = Math.floor(mouseX / res);
@@ -209,8 +188,6 @@ function movePiece(piece, move) {
     prevP = 0;
     moves = [];
     thisMove = 0;
-    term = checkTerminalState();
-    if (term) turn.innerText = (`${terminalState} is the winner!`);
   }
 }
 
@@ -244,4 +221,49 @@ function grid() {
       rect(c * res, r * res, res - 1, res - 1);
     }
   }
+}
+
+function checkMate(color) {
+  let legalMoves = [];
+  let returnVal = true;
+  for (let i = 0; i < 8; i++) {
+    for (let j = 0; j < 8; j++) {
+      let currentPiece = board[i][j];
+      if (currentPiece == 0) continue;
+      if (currentPiece.color == color) continue;
+      else {
+        let mvs = getLegalMoves(currentPiece);
+        for (let n = 0; n < mvs.length; n++) {
+          let mv = mvs[n];
+
+          board[Math.floor(currentPiece.y / res)][Math.floor(currentPiece.x / res)] = 0;
+          let otherPiece = board[mv[0]][mv[1]];
+          let preX = currentPiece.x;
+          let preY = currentPiece.y;
+          currentPiece.x = mv[1] * res;
+          currentPiece.y = mv[0] * res;
+          board[mv[0]][mv[1]] = currentPiece;
+
+          let h = getCheck();
+
+          board[Math.floor(currentPiece.y / res)][Math.floor(currentPiece.x / res)] = otherPiece;
+          currentPiece.x = preX;
+          currentPiece.y = preY;
+          board[Math.floor(currentPiece.y / res)][Math.floor(currentPiece.x / res)] = currentPiece;
+          if (!h[0]) {
+            returnVal = false;
+            return returnVal;
+          }
+        }
+      }
+    }
+  }
+  midTerm = true;
+  return returnVal;
+}
+
+
+function finishGame() {
+  clearInterval(interval);
+  alert(`${tur} player won the game`);
 }

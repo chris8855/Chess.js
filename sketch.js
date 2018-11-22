@@ -24,6 +24,8 @@ function startGame() {
   blackSec = 0, blackMin = 0, blackHour = 0;
   pauseState = false;
   pause.innerText = "Pause Game";
+  term = false;
+  midTerm = false;
   tur = "white";
   deadList = [];
   board =
@@ -57,6 +59,7 @@ function preload() {
 }
 
 function setup() {
+
   let cnv = createCanvas(ruter * res, ruter * res);
   cnv.parent('canvasContainer');
   drawBoard();
