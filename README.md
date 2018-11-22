@@ -9,7 +9,3 @@ TO DO:
 3. 1 player AI
 4. Accounts
 5. Online multiplayer
-
-```javascript
-  console.log("hh");
-```
