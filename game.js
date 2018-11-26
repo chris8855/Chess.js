@@ -100,7 +100,6 @@ function move() {
     if (checkMate(prevP.color)) finishGame();
 
     if (prevP instanceof King){
-
       alert("Trying to move into check");
       moveBack(prevP);
       p = 0;
@@ -175,6 +174,7 @@ function movePiece(piece, move) {
     if (piece instanceof King || piece instanceof Rook){
       piece.moved = true;
     }
+
     board[Math.floor(piece.y / res)][Math.floor(piece.x / res)] = 0;
     piece.x = move[1] * res;
     piece.y = move[0] * res;
@@ -188,6 +188,7 @@ function movePiece(piece, move) {
     prevP = 0;
     moves = [];
     thisMove = 0;
+    if (piece instanceof Pawn) pawnEdge(piece);
   }
 }
 
@@ -266,4 +267,25 @@ function checkMate(color) {
 function finishGame() {
   clearInterval(interval);
   alert(`${tur} player won the game`);
+}
+
+function pawnEdge(piece) {
+  if (piece.color == "b" && Math.floor(piece.y / res) == 7) switchPawn(piece);
+  else if (piece.color == "w" && Math.floor(piece.y / res) == 0) switchPawn(piece);
+  else return false;
+}
+
+function switchPawn(piece) {
+  console.log("switch");
+  let bX = Math.floor(piece.x / res);
+  let bY = Math.floor(piece.y / res);
+  board[bY][bX] = 0;
+  if (piece.color == "b") {
+    let k = new Queen("b", bX, bY);
+    board[bY][bX] = k;
+    console.log(k);
+  }
+  if (piece.color == "w") board[bY][bX] = new Queen("w", bY, bX);
+  drawBoard();
+  drawPieces();
 }

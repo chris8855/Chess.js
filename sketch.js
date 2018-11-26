@@ -59,7 +59,6 @@ function preload() {
 }
 
 function setup() {
-
   let cnv = createCanvas(ruter * res, ruter * res);
   cnv.parent('canvasContainer');
   drawBoard();

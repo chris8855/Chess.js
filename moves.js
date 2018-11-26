@@ -7,16 +7,20 @@ function getLegalMoves(piece) {
 
   if (piece instanceof Pawn) {
     if (piece.color == "b") {
-      if (bX != 0) if ((board[bY + 1][bX - 1] != 0) && (board[bY + 1][bX - 1].color != "b")) moves.push([bY + 1, bX  - 1]);
-      if ((board[bY + 1][bX] == 0)) moves.push([bY + 1, bX]);
-      if (bX != 7) if ((board[bY + 1][bX + 1] != 0) && (board[bY + 1][bX + 1].color != "b")) moves.push([bY + 1, bX  + 1]);
-      if (bY == 1 && board[bY + 2][bX] == 0) moves.push([bY + 2, bX]);
+      if (bY < 7) {
+        if (bX != 0) if ((board[bY + 1][bX - 1] != 0) && (board[bY + 1][bX - 1].color != "b")) moves.push([bY + 1, bX  - 1]);
+        if ((board[bY + 1][bX] == 0)) moves.push([bY + 1, bX]);
+        if (bX != 7) if ((board[bY + 1][bX + 1] != 0) && (board[bY + 1][bX + 1].color != "b")) moves.push([bY + 1, bX  + 1]);
+      }
+      if (bY == 1 && board[bY + 1][bX] == 0 && board[bY + 2][bX] == 0) moves.push([bY + 2, bX]);
     }
     else {
-      if (bX != 0) if ((board[bY - 1][bX - 1] != 0) && (board[bY - 1][bX - 1].color != "w")) moves.push([bY - 1, bX  - 1]);
-      if ((board[bY - 1][bX] == 0)) moves.push([bY - 1, bX]);
-      if (bX != 7) if ((board[bY - 1][bX + 1] != 0) && (board[bY - 1][bX + 1].color != "w")) moves.push([bY - 1, bX  + 1]);
-      if (bY == 6 && board[bY - 2][bX] == 0) moves.push([bY - 2, bX]);
+      if (bY > 0) {
+        if (bX != 0) if ((board[bY - 1][bX - 1] != 0) && (board[bY - 1][bX - 1].color != "w")) moves.push([bY - 1, bX  - 1]);
+        if ((board[bY - 1][bX] == 0)) moves.push([bY - 1, bX]);
+        if (bX != 7) if ((board[bY - 1][bX + 1] != 0) && (board[bY - 1][bX + 1].color != "w")) moves.push([bY - 1, bX  + 1]);
+      }
+      if (bY == 6 && board[bY - 1][bX] == 0 && board[bY - 2][bX] == 0) moves.push([bY - 2, bX]);
     }
   }
   else if (piece instanceof Rook) {
