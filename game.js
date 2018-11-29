@@ -102,6 +102,12 @@ function move() {
       moves = [];
       thisMove = 0;
       grid();
+      //checkCheck(board);
+      if (whiteState) {
+        fill(255,0,0,75);
+        noStroke();
+        rect(re[1].x,re[1].y, res, res);
+      }
       return;
     }
     if ((!whiteState && tur == "white" && re[1].color == "w" || !blackState && tur == "black" && re[1].color == "b")) {
@@ -139,7 +145,6 @@ function checkCheck(state) {
   if (i[0]) {
     if (i[1].color == "b") blackState = true;
     else whiteState = true;
-
     fill(255,0,0,75);
     noStroke();
     rect(i[1].x,i[1].y, res, res);
@@ -187,9 +192,12 @@ function movePiece(piece, move) {
 
 function testMove(piece, move) {
   if (!term) {
+    bufferPiece = board[move[0]][move[1]];
+
     board[Math.floor(piece.y / res)][Math.floor(piece.x / res)] = 0;
     prevX = piece.x;
     prevY = piece.y;
+
     piece.x = move[1] * res;
     piece.y = move[0] * res;
     board[move[0]][move[1]] = piece;
@@ -199,6 +207,7 @@ function testMove(piece, move) {
 
 function moveBack(piece) {
   board[Math.floor(piece.y / res)][Math.floor(piece.x / res)] = 0;
+  board[Math.floor(piece.y / res)][Math.floor(piece.x / res)] = bufferPiece;
   piece.x = prevX;
   piece.y = prevY;
   board[Math.floor(piece.y / res)][Math.floor(piece.x / res)] = piece;

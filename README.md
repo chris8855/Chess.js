@@ -5,6 +5,7 @@ v1.1
 
 TO DO:
 1. Castling
-2. 1 player AI
+2. List of moves made
 3. Accounts
 4. Online multiplayer
+5. 1 player AI

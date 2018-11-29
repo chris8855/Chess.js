@@ -14,6 +14,7 @@ const pH         = 2;
 const wIndex     = width / pW;
 const hIndex     = height/pH;
 
+let bufferPiece   = 0;
 let pauseState    = true;
 let tur           = "white";
 let terminalState = "none";
