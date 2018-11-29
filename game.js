@@ -63,7 +63,6 @@ function getCheck() {
   return returnList;
 }
 
-
 function newPiece() {
   order = 1;
   grid();
@@ -78,7 +77,6 @@ function newPiece() {
   prevP = p;
   prevCell = currentCell;
 }
-
 
 function move() {
   order = 0;
@@ -96,9 +94,6 @@ function move() {
   if (thisMove == 0) return;
   let re = testMove(prevP, thisMove);
   if (re[0]) {
-
-    if (checkMate(prevP.color)) finishGame();
-
     if (prevP instanceof King){
       alert("Trying to move into check");
       moveBack(prevP);
@@ -109,7 +104,6 @@ function move() {
       grid();
       return;
     }
-
     if ((!whiteState && tur == "white" && re[1].color == "w" || !blackState && tur == "black" && re[1].color == "b")) {
       moveBack(prevP);
       p = 0;
@@ -119,7 +113,6 @@ function move() {
       alert("Move puts you in chess");
       return;
     }
-
     if ((whiteState && tur == "white" && re[1].color == "w" || blackState && tur == "black" && re[1].color == "b")) {
       moveBack(prevP);
       p = 0;
@@ -132,6 +125,7 @@ function move() {
       alert("Move still puts you in chess");
       return;
     }
+    if (checkMate(prevP.color)) finishGame();
     movePiece(prevP, thisMove)
     checkCheck(re);
     if (midTerm) term = true;
@@ -174,7 +168,6 @@ function movePiece(piece, move) {
     if (piece instanceof King || piece instanceof Rook){
       piece.moved = true;
     }
-
     board[Math.floor(piece.y / res)][Math.floor(piece.x / res)] = 0;
     piece.x = move[1] * res;
     piece.y = move[0] * res;
@@ -236,7 +229,6 @@ function checkMate(color) {
         let mvs = getLegalMoves(currentPiece);
         for (let n = 0; n < mvs.length; n++) {
           let mv = mvs[n];
-
           board[Math.floor(currentPiece.y / res)][Math.floor(currentPiece.x / res)] = 0;
           let otherPiece = board[mv[0]][mv[1]];
           let preX = currentPiece.x;
@@ -244,9 +236,7 @@ function checkMate(color) {
           currentPiece.x = mv[1] * res;
           currentPiece.y = mv[0] * res;
           board[mv[0]][mv[1]] = currentPiece;
-
           let h = getCheck();
-
           board[Math.floor(currentPiece.y / res)][Math.floor(currentPiece.x / res)] = otherPiece;
           currentPiece.x = preX;
           currentPiece.y = preY;
@@ -263,7 +253,6 @@ function checkMate(color) {
   return returnVal;
 }
 
-
 function finishGame() {
   clearInterval(interval);
   alert(`${tur} player won the game`);
@@ -276,7 +265,6 @@ function pawnEdge(piece) {
 }
 
 function switchPawn(piece) {
-  console.log("switch");
   let bX = Math.floor(piece.x / res);
   let bY = Math.floor(piece.y / res);
   board[bY][bX] = 0;
@@ -284,4 +272,17 @@ function switchPawn(piece) {
   if (piece.color == "w") board[bY][bX] = new Queen("w", bX, bY);
   drawBoard();
   drawPieces();
+}
+
+function checkCastling() {
+  if (tur == "white") {
+    if ((board[7][0] instanceof Rook || board[7][7] instanceof Rook) && board[7][4] instanceof King) {
+
+    }
+  }
+  else {
+    if ((board[0][0] instanceof Rook || board[0][7] instanceof Rook) && board[0][4] instanceof King) {
+
+    }
+  }
 }

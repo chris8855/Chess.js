@@ -13,6 +13,7 @@ let board =
  [new Pawn("w",0,6),new Pawn("w",1,6),new Pawn("w",2,6),new Pawn("w",3,6),new Pawn("w",4,6),new Pawn("w",5,6),new Pawn("w",6,6),new Pawn("w",7,6)],
  [new Rook("w",0,7),new Knight("w",1,7),new Bishop("w",2,7),new Queen("w",3,7),new King("w",4,7),new Bishop("w",5,7),new Knight("w",6,7),new Rook("w",7,7)]];
 
+
 function startGame() {
   clearInterval(interval);
   interval = setInterval(updateClock, 1000);
