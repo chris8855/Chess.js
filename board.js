@@ -1,4 +1,3 @@
-
 function drawBoard() {
   let whitefield = false;
   background(0);

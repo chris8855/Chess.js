@@ -1,0 +1,12 @@
+body {
+  margin: 0;
+}
+
+table {
+  display: inline-block;
+}
+
+body {
+  text-align: center;
+  background-color: #ccc;
+}

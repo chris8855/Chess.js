@@ -3,15 +3,16 @@ function mousePressed() {
     getPosData();
     p = findPiece(currentCell);
     if ((order == 0 && p != 0) && ((p.color != "b" && tur == "white") || (p.color != "w" && tur == "black"))) newPiece();
-    else if ((order == 1 && p != 0) && ((p.color != "b" && tur == "white") || (p.color != "w" && tur == "black"))) newPiece();
+    else if ((order == 1 && p != 0) && ((p.color == "w" && tur == "white") || (p.color == "b" && tur == "black"))){
+      if ((prevP instanceof King && p instanceof Rook) || (prevP instanceof Rook && p instanceof King)) {
+        console.log(castle(prevP, p));
+      }
+      else newPiece();
+    }
     else if ((order == 1) && (p == 0)) move();
     else if ((order == 1) && (p != 0)) {
-      if ((p.color == "b" && tur == "black") || (p.color == "w" && tur == "white")){
-      }
-      else {
-        deadList.push(p);
-        move();
-      }
+      deadList.push(p);
+      move();
     }
   }
 }
