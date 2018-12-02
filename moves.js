@@ -23,6 +23,7 @@ function getLegalMoves(piece) {
       if (bY == 6 && board[bY - 1][bX] == 0 && board[bY - 2][bX] == 0) moves.push([bY - 2, bX]);
     }
   }
+
   else if (piece instanceof Rook) {
     if (piece.color == "b") {
       if (bX < 7) { //Sjekker alle felter til høyre
@@ -425,4 +426,21 @@ function getLegalMoves(piece) {
   }
   else moves = [];
   return moves;
+}
+
+function getAllLegalMoves(playerC) {
+  let mvs = [];
+  for (let i = 0; i < 8; i++) {
+    for (let j = 0; j < 8; j++) {
+      let cc = board[i][j];
+      if (cc == 0) continue;
+      if (cc.color == playerC) {
+        let lm = getLegalMoves(cc);
+        for (let n = 0; n < lm.length; n++) {
+          mvs.push(lm[n]);
+        }
+      }
+    }
+  }
+  return mvs;
 }

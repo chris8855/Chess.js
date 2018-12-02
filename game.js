@@ -19,6 +19,7 @@ async function updateClock() {
     }
     whiteTimer.innerText = `${whiteHour}:${whiteMin}:${whiteSec}`;
   }
+
   else {
     blackSec++;
     if (blackSec == 60){
@@ -31,36 +32,6 @@ async function updateClock() {
     }
     blackTimer.innerText = `${blackHour}:${blackMin}:${blackSec}`;
   }
-}
-
-function getCheck() {
-  let kingList = [];
-  let currentP, leg;
-  let returnList = [false];
-  for (let i = 0; i < 8; i++) {
-    for (let j = 0; j < 8; j++) {
-      currentP = board[i][j];
-      if (currentP == 0) continue;
-      if (currentP instanceof King) kingList.push(currentP);
-    }
-  }
-  for (let i = 0; i < 8; i++) {
-    for (let j = 0; j < 8; j++) {
-      currentP = board[i][j];
-      if (currentP == 0) continue;
-      else {
-        leg = getLegalMoves(currentP);
-        for (let k = 0; k < leg.length; k++) {
-          for (let n = 0; n < kingList.length; n++) {
-            if((leg[k][1] == Math.floor(kingList[n].x / res)) && (leg[k][0] == Math.floor(kingList[n].y / res))){
-              returnList = [true,kingList[n]];
-            }
-          }
-        }
-      }
-    }
-  }
-  return returnList;
 }
 
 function newPiece() {
@@ -140,21 +111,6 @@ function move() {
   if (midTerm) term = true;
 }
 
-function checkCheck(state) {
-  let i = state;
-  if (i[0]) {
-    if (i[1].color == "b") blackState = true;
-    else whiteState = true;
-    fill(255,0,0,75);
-    noStroke();
-    rect(i[1].x,i[1].y, res, res);
-  }
-  else {
-    blackState = false;
-    whiteState = false;
-  }
-}
-
 function getPosData() {
   currentX = Math.floor(mouseX / res);
   currentY = Math.floor(mouseY / res);
@@ -226,165 +182,7 @@ function grid() {
   }
 }
 
-function checkMate(color) {
-  let legalMoves = [];
-  let returnVal = true;
-  for (let i = 0; i < 8; i++) {
-    for (let j = 0; j < 8; j++) {
-      let currentPiece = board[i][j];
-      if (currentPiece == 0) continue;
-      if (currentPiece.color == color) continue;
-      else {
-        let mvs = getLegalMoves(currentPiece);
-        for (let n = 0; n < mvs.length; n++) {
-          let mv = mvs[n];
-          board[Math.floor(currentPiece.y / res)][Math.floor(currentPiece.x / res)] = 0;
-          let otherPiece = board[mv[0]][mv[1]];
-          let preX = currentPiece.x;
-          let preY = currentPiece.y;
-          currentPiece.x = mv[1] * res;
-          currentPiece.y = mv[0] * res;
-          board[mv[0]][mv[1]] = currentPiece;
-          let h = getCheck();
-          board[Math.floor(currentPiece.y / res)][Math.floor(currentPiece.x / res)] = otherPiece;
-          currentPiece.x = preX;
-          currentPiece.y = preY;
-          board[Math.floor(currentPiece.y / res)][Math.floor(currentPiece.x / res)] = currentPiece;
-          if (!h[0]) {
-            returnVal = false;
-            return returnVal;
-          }
-        }
-      }
-    }
-  }
-  midTerm = true;
-  return returnVal;
-}
-
 function finishGame() {
   clearInterval(interval);
   alert(`${tur} player won the game`);
-}
-
-function pawnEdge(piece) {
-  if (piece.color == "b" && Math.floor(piece.y / res) == 7) switchPawn(piece);
-  else if (piece.color == "w" && Math.floor(piece.y / res) == 0) switchPawn(piece);
-  else return false;
-}
-
-function switchPawn(piece) {
-  let bX = Math.floor(piece.x / res);
-  let bY = Math.floor(piece.y / res);
-  board[bY][bX] = 0;
-  if (piece.color == "b") board[bY][bX] =  new Queen("b", bX, bY);
-  if (piece.color == "w") board[bY][bX] = new Queen("w", bX, bY);
-  drawBoard();
-  drawPieces();
-}
-
-function checkCastling() {
-  if (tur == "white") {
-    if ((board[7][0] instanceof Rook || board[7][7] instanceof Rook) && board[7][4] instanceof King) {
-
-    }
-  }
-  else {
-    if ((board[0][0] instanceof Rook || board[0][7] instanceof Rook) && board[0][4] instanceof King) {
-
-    }
-  }
-}
-
-function checkCastling(thisPiece, movePiece) {
-  if (thisPiece.moved || movePiece.moved) return;
-  let thisX = Math.floor(thisPiece.x / res);
-  let y = Math.floor(thisPiece.y / res);
-  let moveX = Math.floor(movePiece.x / res);
-
-  if (thisPiece instanceof King) {
-    if (thisX > moveX) {
-      for (let i = thisX - 1; i > 0; i--) {
-        if (board[y][i] != 0){
-          return;
-        }
-      }
-    }
-    else {
-      for (let i = thisX + 1; i < 7; i++) {
-        if (board[y][i] != 0){
-          return;
-        }
-      }
-    }
-    return true;
-  }
-  else {
-    if (thisX > moveX) {
-      for (let i = thisX - 1; i > moveX; i--) {
-        if (board[y][i] != 0){
-          return;
-        }
-      }
-    }
-    else {
-      for (let i = 1; i < moveX; i++) {
-        if (board[y][i] != 0){
-          return;
-        }
-      }
-    }
-    return true;
-  }
-}
-
-function castle(thisPiece, movePiece) {
-  if (!checkCastling(thisPiece, movePiece)) return;
-  let thisX = Math.floor(thisPiece.x / res);
-  let y = Math.floor(thisPiece.y / res);
-  let moveX = Math.floor(movePiece.x / res);
-
-
-  if (thisPiece instanceof King) {
-    if (thisX > moveX) {
-      board[Math.floor(thisPiece.y / res)][Math.floor(thisPiece.x / res)] = 0;
-      board[Math.floor(thisPiece.y / res)][Math.floor(thisPiece.x / res) - 2] = thisPiece;
-      thisPiece.x -= 2 * res;
-      board[Math.floor(thisPiece.y / res)][Math.floor(thisPiece.x / res) + 1] = movePiece;
-      movePiece.x = thisPiece.x + res;
-    }
-    else {
-      board[Math.floor(thisPiece.y / res)][Math.floor(thisPiece.x / res)] = 0;
-      board[Math.floor(thisPiece.y / res)][Math.floor(thisPiece.x / res) + 2] = thisPiece;
-      thisPiece.x += 2 * res;
-      board[Math.floor(thisPiece.y / res)][Math.floor(thisPiece.x / res) - 1] = movePiece;
-      movePiece.x = thisPiece.x - res;
-    }
-  }
-  else {
-    if (thisX > moveX) {
-      board[Math.floor(movePiece.y / res)][Math.floor(movePiece.x / res)] = 0;
-      board[Math.floor(movePiece.y / res)][Math.floor(movePiece.x / res) + 2] = movePiece;
-      movePiece.x += 2 * res;
-      board[Math.floor(movePiece.y / res)][Math.floor(movePiece.x / res) - 1] = thisPiece;
-      thisPiece.x = movePiece.x - res;
-    }
-    else {
-      board[Math.floor(movePiece.y / res)][Math.floor(movePiece.x / res)] = 0;
-      board[Math.floor(movePiece.y / res)][Math.floor(movePiece.x / res) - 2] = movePiece;
-      movePiece.x -= 2 * res;
-      board[Math.floor(movePiece.y / res)][Math.floor(movePiece.x / res) + 1] = thisPiece;
-      thisPiece.x = movePiece.x + res;
-    }
-  }
-
-
-  audio.play();
-  nextTurn();
-  drawBoard();
-  drawPieces();
-  p = 0;
-  prevP = 0;
-  moves = [];
-  thisMove = 0;
 }
