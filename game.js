@@ -4,8 +4,8 @@ function nextTurn() {
   turns++;
   turnCount = Math.floor(turns / 2);
   turn.innerText = tur + " player turnCount: " + turnCount;
+  if (tur == "black" && AImode) moveAI();
 }
-
 async function updateClock() {
   if (tur == "white") {
     whiteSec++;
@@ -149,11 +149,9 @@ function movePiece(piece, move) {
 function testMove(piece, move) {
   if (!term) {
     bufferPiece = board[move[0]][move[1]];
-
     board[Math.floor(piece.y / res)][Math.floor(piece.x / res)] = 0;
     prevX = piece.x;
     prevY = piece.y;
-
     piece.x = move[1] * res;
     piece.y = move[0] * res;
     board[move[0]][move[1]] = piece;
@@ -186,3 +184,18 @@ function finishGame() {
   clearInterval(interval);
   alert(`${tur} player won the game`);
 }
+
+function aimode() {
+  if (!AImode) {
+    AImode = true;
+    AIbtn.innerText = "2 player mode";
+    startGame();
+  }
+  else {
+    AImode = false;
+    AIbtn.innerText = "1 player mode";
+    startGame();
+  }
+}
+
+AIbtn.addEventListener("click", aimode);

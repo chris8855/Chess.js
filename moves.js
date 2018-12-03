@@ -436,9 +436,7 @@ function getAllLegalMoves(playerC) {
       if (cc == 0) continue;
       if (cc.color == playerC) {
         let lm = getLegalMoves(cc);
-        for (let n = 0; n < lm.length; n++) {
-          mvs.push(lm[n]);
-        }
+        if (lm.length > 0) mvs.push([cc,lm]);
       }
     }
   }

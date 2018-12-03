@@ -3,7 +3,11 @@ const blackTimer = document.getElementById("blackTimer");
 const whiteTimer = document.getElementById("whiteTimer");
 const start      = document.getElementById("StartGame");
 const pause      = document.getElementById("PauseGame");
+const AIbtn     = document.getElementById("AImode");
 const audio      = new Audio("./sources/swoosh.mp3");
+
+
+
 const ruter      = 8;
 const res        = 75;
 const nPawns     = 8;
@@ -20,6 +24,7 @@ let tur           = "white";
 let terminalState = "none";
 let order         = 0;
 let deadList      = [];
+let AImode = false;
 
 let term       = false, midTerm    = false;
 let turnCount  = 0,     turns      = 0;
